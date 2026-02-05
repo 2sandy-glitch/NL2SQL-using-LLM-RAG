@@ -1,0 +1,84 @@
+[project]
+name = "text-to-sql-chatbot"
+version = "1.0.0"
+description = "AI-powered chatbot that converts natural language to SQL queries using RAG"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [
+    { name = "santhosh", email = "s.santhosh222004@gmail.com" }
+]
+keywords = ["chatbot", "sql", "nlp", "rag", "ai", "langchain"]
+
+dependencies = [
+    # Core Framework
+    "flask>=3.0.0",
+    "flask-cors>=4.0.0",
+    
+    # Database
+    "sqlalchemy>=2.0.23",
+    "pymysql>=1.1.0",
+    # "mysql-connector-python>=8.2.0",  # Commented out - not compatible with Python 3.13
+    
+    # Data Processing
+    "pandas>=2.1.4",
+    "openpyxl>=3.1.2",
+    "numpy>=1.26.2",
+    
+    # AI/ML
+    "openai>=1.6.1",
+    "langchain>=0.1.0",
+    "langchain-openai>=0.0.2",
+    "langchain-community>=0.0.10",
+    "chromadb>=0.4.22",
+    "sentence-transformers>=2.2.2",
+    
+    # Utilities
+    "python-dotenv>=1.0.0",
+    "pydantic>=2.5.3",
+    "requests>=2.31.0",
+    "colorlog>=6.8.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.3",
+    "pytest-cov>=4.1.0",
+    "httpx>=0.26.0",
+    "black>=23.12.1",
+    "ruff>=0.1.9",
+    "mypy>=1.8.0",
+    "pre-commit>=3.6.0",
+]
+
+[project.scripts]
+start = "app:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["."]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W", "UP"]
+ignore = ["E501"]
+
+[tool.black]
+line-length = 100
+target-version = ["py310"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = "-v --cov=. --cov-report=html"
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_ignores = true
