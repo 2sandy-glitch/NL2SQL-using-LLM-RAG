@@ -1,0 +1,101 @@
+customer_id,first_name,last_name,email,city,state,registration_date,is_active
+1,FirstName_1,LastName_1,customer1@example.com,Houston,TX,2025-10-30 18:16:05.052113,False
+2,FirstName_2,LastName_2,customer2@example.com,Phoenix,NY,2025-07-22 18:16:05.052123,True
+3,FirstName_3,LastName_3,customer3@example.com,Chicago,TX,2025-06-10 18:16:05.052126,True
+4,FirstName_4,LastName_4,customer4@example.com,Phoenix,CA,2025-09-14 18:16:05.052127,False
+5,FirstName_5,LastName_5,customer5@example.com,Phoenix,NY,2025-10-31 18:16:05.052129,True
+6,FirstName_6,LastName_6,customer6@example.com,Los Angeles,AZ,2025-07-19 18:16:05.052130,False
+7,FirstName_7,LastName_7,customer7@example.com,Chicago,IL,2025-10-04 18:16:05.052132,True
+8,FirstName_8,LastName_8,customer8@example.com,Chicago,TX,2025-08-02 18:16:05.052133,True
+9,FirstName_9,LastName_9,customer9@example.com,Chicago,IL,2025-03-16 18:16:05.052134,True
+10,FirstName_10,LastName_10,customer10@example.com,Phoenix,IL,2025-02-21 18:16:05.052136,False
+11,FirstName_11,LastName_11,customer11@example.com,Houston,NY,2025-05-22 18:16:05.052138,True
+12,FirstName_12,LastName_12,customer12@example.com,Chicago,IL,2025-09-10 18:16:05.052139,True
+13,FirstName_13,LastName_13,customer13@example.com,Phoenix,AZ,2025-05-29 18:16:05.052141,True
+14,FirstName_14,LastName_14,customer14@example.com,Los Angeles,IL,2025-02-24 18:16:05.052142,True
+15,FirstName_15,LastName_15,customer15@example.com,Houston,NY,2025-09-11 18:16:05.052144,True
+16,FirstName_16,LastName_16,customer16@example.com,Los Angeles,AZ,2025-09-10 18:16:05.052145,True
+17,FirstName_17,LastName_17,customer17@example.com,Houston,CA,2025-02-18 18:16:05.052146,True
+18,FirstName_18,LastName_18,customer18@example.com,Phoenix,IL,2025-07-21 18:16:05.052148,False
+19,FirstName_19,LastName_19,customer19@example.com,New York,NY,2025-04-03 18:16:05.052149,False
+20,FirstName_20,LastName_20,customer20@example.com,Houston,CA,2025-09-30 18:16:05.052151,True
+21,FirstName_21,LastName_21,customer21@example.com,Los Angeles,CA,2025-12-28 18:16:05.052152,True
+22,FirstName_22,LastName_22,customer22@example.com,Phoenix,TX,2025-03-04 18:16:05.052154,True
+23,FirstName_23,LastName_23,customer23@example.com,Houston,AZ,2025-02-10 18:16:05.052155,True
+24,FirstName_24,LastName_24,customer24@example.com,New York,IL,2025-09-29 18:16:05.052156,True
+25,FirstName_25,LastName_25,customer25@example.com,New York,NY,2025-05-14 18:16:05.052158,True
+26,FirstName_26,LastName_26,customer26@example.com,Chicago,TX,2025-09-07 18:16:05.052159,True
+27,FirstName_27,LastName_27,customer27@example.com,Chicago,AZ,2025-04-13 18:16:05.052161,False
+28,FirstName_28,LastName_28,customer28@example.com,Los Angeles,TX,2025-10-29 18:16:05.052162,True
+29,FirstName_29,LastName_29,customer29@example.com,Houston,AZ,2025-05-18 18:16:05.052164,True
+30,FirstName_30,LastName_30,customer30@example.com,Houston,AZ,2025-05-29 18:16:05.052165,True
+31,FirstName_31,LastName_31,customer31@example.com,Chicago,IL,2025-09-14 18:16:05.052167,True
+32,FirstName_32,LastName_32,customer32@example.com,Houston,AZ,2025-02-24 18:16:05.052168,True
+33,FirstName_33,LastName_33,customer33@example.com,Houston,TX,2025-10-16 18:16:05.052169,True
+34,FirstName_34,LastName_34,customer34@example.com,New York,AZ,2025-12-07 18:16:05.052171,True
+35,FirstName_35,LastName_35,customer35@example.com,Chicago,IL,2026-02-03 18:16:05.052172,True
+36,FirstName_36,LastName_36,customer36@example.com,Phoenix,IL,2025-04-07 18:16:05.052173,True
+37,FirstName_37,LastName_37,customer37@example.com,Chicago,TX,2025-05-27 18:16:05.052175,True
+38,FirstName_38,LastName_38,customer38@example.com,Phoenix,CA,2025-09-18 18:16:05.052176,True
+39,FirstName_39,LastName_39,customer39@example.com,New York,CA,2025-12-30 18:16:05.052177,True
+40,FirstName_40,LastName_40,customer40@example.com,Los Angeles,AZ,2025-08-29 18:16:05.052179,True
+41,FirstName_41,LastName_41,customer41@example.com,Houston,NY,2026-01-27 18:16:05.052180,True
+42,FirstName_42,LastName_42,customer42@example.com,New York,AZ,2025-06-17 18:16:05.052181,False
+43,FirstName_43,LastName_43,customer43@example.com,Houston,TX,2025-10-29 18:16:05.052183,True
+44,FirstName_44,LastName_44,customer44@example.com,Los Angeles,TX,2025-09-11 18:16:05.052184,True
+45,FirstName_45,LastName_45,customer45@example.com,Los Angeles,TX,2025-04-07 18:16:05.052186,True
+46,FirstName_46,LastName_46,customer46@example.com,New York,TX,2025-07-12 18:16:05.052187,True
+47,FirstName_47,LastName_47,customer47@example.com,Los Angeles,TX,2025-09-27 18:16:05.052188,True
+48,FirstName_48,LastName_48,customer48@example.com,Phoenix,IL,2025-09-06 18:16:05.052190,True
+49,FirstName_49,LastName_49,customer49@example.com,Los Angeles,CA,2025-12-13 18:16:05.052191,False
+50,FirstName_50,LastName_50,customer50@example.com,Houston,TX,2025-10-08 18:16:05.052192,False
+51,FirstName_51,LastName_51,customer51@example.com,Houston,NY,2025-08-28 18:16:05.052194,False
+52,FirstName_52,LastName_52,customer52@example.com,Houston,NY,2025-10-12 18:16:05.052195,True
+53,FirstName_53,LastName_53,customer53@example.com,Houston,NY,2025-11-22 18:16:05.052196,True
+54,FirstName_54,LastName_54,customer54@example.com,Phoenix,NY,2025-10-15 18:16:05.052198,True
+55,FirstName_55,LastName_55,customer55@example.com,Chicago,IL,2025-10-24 18:16:05.052199,True
+56,FirstName_56,LastName_56,customer56@example.com,New York,NY,2025-03-02 18:16:05.052200,True
+57,FirstName_57,LastName_57,customer57@example.com,Houston,TX,2025-05-27 18:16:05.052202,False
+58,FirstName_58,LastName_58,customer58@example.com,Los Angeles,AZ,2025-06-23 18:16:05.052203,True
+59,FirstName_59,LastName_59,customer59@example.com,Houston,NY,2025-10-16 18:16:05.052205,False
+60,FirstName_60,LastName_60,customer60@example.com,Los Angeles,IL,2025-10-29 18:16:05.052206,True
+61,FirstName_61,LastName_61,customer61@example.com,Los Angeles,IL,2025-09-05 18:16:05.052207,False
+62,FirstName_62,LastName_62,customer62@example.com,Houston,NY,2025-02-21 18:16:05.052209,True
+63,FirstName_63,LastName_63,customer63@example.com,Phoenix,AZ,2025-03-04 18:16:05.052210,True
+64,FirstName_64,LastName_64,customer64@example.com,Los Angeles,NY,2025-07-26 18:16:05.052211,True
+65,FirstName_65,LastName_65,customer65@example.com,Los Angeles,IL,2025-04-01 18:16:05.052213,True
+66,FirstName_66,LastName_66,customer66@example.com,Houston,CA,2025-08-26 18:16:05.052214,True
+67,FirstName_67,LastName_67,customer67@example.com,Los Angeles,TX,2025-07-12 18:16:05.052216,False
+68,FirstName_68,LastName_68,customer68@example.com,Los Angeles,IL,2025-08-20 18:16:05.052217,True
+69,FirstName_69,LastName_69,customer69@example.com,Houston,NY,2025-08-28 18:16:05.052218,True
+70,FirstName_70,LastName_70,customer70@example.com,Houston,TX,2025-11-29 18:16:05.052220,True
+71,FirstName_71,LastName_71,customer71@example.com,New York,NY,2025-04-22 18:16:05.052221,True
+72,FirstName_72,LastName_72,customer72@example.com,Phoenix,NY,2025-05-04 18:16:05.052222,True
+73,FirstName_73,LastName_73,customer73@example.com,Phoenix,CA,2025-04-07 18:16:05.052224,True
+74,FirstName_74,LastName_74,customer74@example.com,Los Angeles,TX,2025-09-23 18:16:05.052225,True
+75,FirstName_75,LastName_75,customer75@example.com,Phoenix,TX,2025-07-25 18:16:05.052226,True
+76,FirstName_76,LastName_76,customer76@example.com,Los Angeles,CA,2025-09-30 18:16:05.052229,True
+77,FirstName_77,LastName_77,customer77@example.com,New York,IL,2026-01-03 18:16:05.052231,True
+78,FirstName_78,LastName_78,customer78@example.com,Houston,NY,2025-08-13 18:16:05.052232,True
+79,FirstName_79,LastName_79,customer79@example.com,Houston,AZ,2026-01-14 18:16:05.052234,False
+80,FirstName_80,LastName_80,customer80@example.com,Houston,NY,2025-06-12 18:16:05.052235,True
+81,FirstName_81,LastName_81,customer81@example.com,Phoenix,NY,2025-08-31 18:16:05.052236,True
+82,FirstName_82,LastName_82,customer82@example.com,New York,IL,2025-12-29 18:16:05.052238,True
+83,FirstName_83,LastName_83,customer83@example.com,Phoenix,NY,2025-06-20 18:16:05.052239,True
+84,FirstName_84,LastName_84,customer84@example.com,Phoenix,CA,2025-12-16 18:16:05.052240,False
+85,FirstName_85,LastName_85,customer85@example.com,New York,CA,2025-05-17 18:16:05.052242,True
+86,FirstName_86,LastName_86,customer86@example.com,New York,TX,2025-04-28 18:16:05.052243,True
+87,FirstName_87,LastName_87,customer87@example.com,New York,AZ,2026-01-09 18:16:05.052244,True
+88,FirstName_88,LastName_88,customer88@example.com,New York,NY,2025-06-24 18:16:05.052246,True
+89,FirstName_89,LastName_89,customer89@example.com,Houston,NY,2025-05-04 18:16:05.052247,True
+90,FirstName_90,LastName_90,customer90@example.com,Chicago,IL,2025-04-25 18:16:05.052249,True
+91,FirstName_91,LastName_91,customer91@example.com,Chicago,CA,2025-10-31 18:16:05.052250,True
+92,FirstName_92,LastName_92,customer92@example.com,New York,AZ,2025-04-27 18:16:05.052251,True
+93,FirstName_93,LastName_93,customer93@example.com,Chicago,TX,2025-03-25 18:16:05.052253,True
+94,FirstName_94,LastName_94,customer94@example.com,Chicago,CA,2025-04-07 18:16:05.052254,True
+95,FirstName_95,LastName_95,customer95@example.com,New York,TX,2025-09-11 18:16:05.052256,True
+96,FirstName_96,LastName_96,customer96@example.com,Chicago,IL,2026-02-01 18:16:05.052257,True
+97,FirstName_97,LastName_97,customer97@example.com,Phoenix,IL,2026-01-01 18:16:05.052259,True
+98,FirstName_98,LastName_98,customer98@example.com,Los Angeles,NY,2025-07-28 18:16:05.052260,False
+99,FirstName_99,LastName_99,customer99@example.com,Los Angeles,AZ,2025-12-18 18:16:05.052261,True
+100,FirstName_100,LastName_100,customer100@example.com,New York,TX,2026-01-19 18:16:05.052263,True
