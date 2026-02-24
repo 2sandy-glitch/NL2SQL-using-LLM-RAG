@@ -72,3 +72,12 @@ htmlcov/
 # Misc
 *.bak
 *.tmp
+
+# Coverage reports
+coverage.xml
+
+# Mypy cache
+.mypy_cache/
+
+# Ruff cache
+.ruff_cache/
