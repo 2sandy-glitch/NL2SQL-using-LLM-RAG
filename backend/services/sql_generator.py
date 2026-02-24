@@ -10,12 +10,9 @@ class SQLGenerator:
     """
     Production-Ready SQL Generator Service.
 
-    - Supports MOCK mode
-    - Supports Real LLM backend
-    - Strong SQL validation
-    - Guardrails against unsafe queries
-    - Risk scoring
-    - Safe execution flow
+    - Supports MOCK mode (USE_MOCK_LLM=True)
+    - Supports Real LLM backend (USE_MOCK_LLM=False)
+    - Strong SQL validation + guardrails against unsafe queries
     """
 
     FORBIDDEN_KEYWORDS = [
@@ -27,18 +24,19 @@ class SQLGenerator:
         "INSERT",
         "GRANT",
         "REVOKE",
-        "CREATE"
+        "CREATE",
     ]
 
     SYSTEM_TABLE_PATTERNS = [
         r"information_schema",
         r"pg_catalog",
-        r"pg_toast"
+        r"pg_toast",
     ]
 
-    def __init__(self, db, openai_client):
+    def __init__(self, db, llm_client):
         self.db = db
-        self.openai = openai_client
+        # Keeping name self.openai for backward-compatibility: it now just means "LLM client"
+        self.openai = llm_client
         self.use_mock = getattr(config, "USE_MOCK_LLM", True)
 
     # --------------------------------------------------
@@ -71,17 +69,17 @@ class SQLGenerator:
         self,
         question: str,
         schema_context: str,
-        sample_data: Optional[str] = None
+        sample_data: Optional[str] = None,
     ) -> Dict[str, Any]:
-
         if not self.openai:
             return {"success": False, "error": "LLM client not initialized"}
 
         try:
+            # LLM client must expose generate_sql(question, schema_context, sample_data)
             return self.openai.generate_sql(
                 question=question,
                 schema_context=schema_context,
-                sample_data=sample_data
+                sample_data=sample_data,
             )
         except Exception as e:
             return {"success": False, "error": str(e)}
@@ -94,32 +92,42 @@ class SQLGenerator:
         self,
         question: str,
         include_sample_data: bool = False,
-        sample_rows: int = 3
+        sample_rows: int = 3,
     ) -> Dict[str, Any]:
+        if not question:
+            return {"success": False, "error": "Question is required"}
 
         try:
             schema_context = self.db.get_schema_for_prompt()
         except Exception as e:
             return {"success": False, "error": f"Schema error: {str(e)}"}
 
+        sample_data = None
+        if include_sample_data:
+            # Optional: only if your DB connector implements it
+            try:
+                if hasattr(self.db, "get_sample_rows_for_prompt"):
+                    sample_data = self.db.get_sample_rows_for_prompt(limit=sample_rows)
+            except Exception:
+                sample_data = None
+
         # Choose backend
         if self.use_mock:
             ai_response = self._mock_generate_sql(question)
         else:
             ai_response = self._llm_generate_sql(
-                question,
-                schema_context,
-                None
+                question=question,
+                schema_context=schema_context,
+                sample_data=sample_data,
             )
 
         if not ai_response.get("success"):
             return {
                 "success": False,
-                "error": ai_response.get("error", "Unknown LLM error")
+                "error": ai_response.get("error", "Unknown LLM error"),
             }
 
         sql = ai_response.get("sql")
-
         if not sql:
             return {"success": False, "error": "No SQL generated"}
 
@@ -128,7 +136,7 @@ class SQLGenerator:
         return {
             "success": validation["is_safe"],
             "sql": sql,
-            "validation": validation
+            "validation": validation,
         }
 
     # --------------------------------------------------
@@ -138,10 +146,15 @@ class SQLGenerator:
     def generate_and_execute(
         self,
         question: str,
-        auto_explain: bool = False
+        include_sample_data: bool = False,
+        sample_rows: int = 3,
+        auto_explain: bool = False,
     ) -> Dict[str, Any]:
-
-        generation = self.generate_sql(question)
+        generation = self.generate_sql(
+            question=question,
+            include_sample_data=include_sample_data,
+            sample_rows=sample_rows,
+        )
 
         if not generation.get("success"):
             return generation
@@ -150,7 +163,7 @@ class SQLGenerator:
             return {
                 "success": False,
                 "error": "Unsafe SQL detected",
-                "validation": generation["validation"]
+                "validation": generation["validation"],
             }
 
         try:
@@ -169,9 +182,7 @@ class SQLGenerator:
             generation["execution_time"] = execution_time
 
             if auto_explain:
-                generation["explanation"] = self._generate_explanation(
-                    generation["sql"]
-                )
+                generation["explanation"] = self._generate_explanation(generation["sql"])
 
             return generation
 
@@ -183,10 +194,9 @@ class SQLGenerator:
     # --------------------------------------------------
 
     def validate_sql(self, sql_query: str) -> Dict[str, Any]:
-
         upper_sql = sql_query.strip().upper()
-        issues = []
-        warnings = []
+        issues: List[str] = []
+        warnings: List[str] = []
         risk_score = 0
 
         # 1️⃣ Only SELECT allowed
@@ -211,7 +221,7 @@ class SQLGenerator:
                 issues.append("System table access detected")
                 risk_score += 40
 
-        # 5️⃣ Validate table existence
+        # 5️⃣ Validate table existence (best-effort)
         try:
             valid_tables = self.db.get_tables()
             if not any(table.lower() in sql_query.lower() for table in valid_tables):
@@ -226,7 +236,7 @@ class SQLGenerator:
             "is_valid": True,
             "issues": issues,
             "warnings": warnings,
-            "risk_score": risk_score
+            "risk_score": risk_score,
         }
 
     # --------------------------------------------------
@@ -249,7 +259,7 @@ class SQLGenerator:
             "Show all products",
             "How many orders are there?",
             "What is the average price of products?",
-            "List all orders for customer John Doe"
+            "List all orders for customer John Doe",
         ]
         return suggestions[:limit]
 
@@ -261,16 +271,31 @@ class SQLGenerator:
 _sql_generator: Optional[SQLGenerator] = None
 
 
+class GroqClientWrapper:
+    """
+    Adapter so SQLGenerator can call `.generate_sql(...)`.
+    Delegates to services.groq_llm_client.generate_sql(...)
+    """
+
+    def generate_sql(self, question: str, schema_context: str, sample_data: str = None) -> dict:
+        from services import groq_llm_client
+
+        return groq_llm_client.generate_sql(
+            question=question,
+            schema_context=schema_context,
+            sample_data=sample_data,
+        )
+
+
 def get_sql_generator() -> SQLGenerator:
     global _sql_generator
 
     if _sql_generator is None:
         from services.db_connector import get_db_connector
-        from services.openai_client import get_openai_client
 
         db = get_db_connector()
-        openai_client = get_openai_client()
+        llm_client = GroqClientWrapper()
 
-        _sql_generator = SQLGenerator(db, openai_client)
+        _sql_generator = SQLGenerator(db, llm_client)
 
     return _sql_generator
