@@ -3,6 +3,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional
 from services.sql_generator import get_sql_generator
+from services.groq_llm_client import client as groq_client, MODEL_NAME as GROQ_MODEL
+import json
 
 app = FastAPI(
     title="Text-to-SQL Chatbot API",
@@ -27,6 +29,10 @@ class SQLGenerateRequest(BaseModel):
     include_sample_data: bool = False
     sample_rows: int = 3
 
+class SQLExplainRequest(BaseModel):
+    sql: str
+    schema_context: Optional[str] = None
+
 # Routes
 @app.get("/")
 def root():
@@ -47,6 +53,51 @@ def generate_sql(request: SQLGenerateRequest):
         sample_rows=request.sample_rows
     )
     return result
+
+@app.post("/explain-sql")
+def explain_sql(request: SQLExplainRequest):
+    if not request.sql:
+        raise HTTPException(status_code=400, detail="SQL query is required")
+
+    schema_hint = ""
+    if request.schema_context:
+        schema_hint = f"\n\nDatabase schema:\n{request.schema_context[:1500]}"
+
+    prompt = f"""You are a SQL expert. Explain this SQL query in plain English for a non-technical user. Break it down clause by clause.
+
+Return ONLY a JSON object with this exact structure (no markdown, no extra text):
+{{
+  "summary": "One sentence summary of what this query does",
+  "clauses": [
+    {{ "clause": "the SQL clause", "explanation": "plain English explanation" }}
+  ],
+  "tables_used": ["table1", "table2"],
+  "complexity": "Simple"
+}}
+
+Complexity must be one of: Simple, Moderate, Complex.
+
+SQL:
+{request.sql}{schema_hint}"""
+
+    try:
+        response = groq_client.chat.completions.create(
+            model=GROQ_MODEL,
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.2,
+            max_tokens=1000
+        )
+
+        raw_text = response.choices[0].message.content.strip()
+        # Clean up any markdown fencing
+        clean = raw_text.replace("```json", "").replace("```", "").strip()
+        explanation = json.loads(clean)
+        return {"success": True, "explanation": explanation}
+
+    except json.JSONDecodeError:
+        return {"success": False, "error": "Failed to parse explanation response"}
+    except Exception as e:
+        return {"success": False, "error": str(e)}
 
 @app.get("/suggestions")
 def suggestions(limit: int = 5):

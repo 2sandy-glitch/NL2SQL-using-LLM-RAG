@@ -1,7 +1,6 @@
 """
-Test file for AI components - Phase 3.
-Tests SQL generation pipeline and RAG engine.
-OpenAI test is optional due to quota limitations.
+Test file for AI components.
+Tests SQL generation pipeline and Groq LLM integration.
 """
 
 import sys
@@ -18,42 +17,32 @@ logger = get_logger(__name__)
 
 
 # --------------------------------------------------
-# TEST 1: OpenAI Connection (OPTIONAL)
+# TEST 1: Groq Connection
 # --------------------------------------------------
-def test_openai_connection():
-    """
-    OpenAI test is optional.
-    This test is skipped if quota is exceeded.
-    """
+def test_groq_connection():
     print("\n" + "=" * 60)
-    print("TEST 1: OpenAI Connection (Optional)")
+    print("TEST 1: Groq Connection")
     print("=" * 60)
 
     try:
-        from services.openai_client import get_openai_client
+        from services.groq_llm_client import client as groq_client, MODEL_NAME
 
-        client = get_openai_client()
-        print("  [OK] OpenAI client created")
-
-        if not client.initialize():
-            print("  [SKIP] OpenAI not initialized (missing key or quota)")
-            return True
-
-        response = client.chat_completion(
+        response = groq_client.chat.completions.create(
+            model=MODEL_NAME,
             messages=[{"role": "user", "content": "Say hello"}],
             max_tokens=10
         )
 
-        if response["success"]:
-            print("  [OK] OpenAI completion successful")
+        if response.choices:
+            print(f"  [OK] Groq completion successful: {response.choices[0].message.content}")
             return True
         else:
-            print("  [SKIP] OpenAI quota exceeded")
-            return True
+            print("  [FAIL] No response from Groq")
+            return False
 
     except Exception as e:
-        print(f"  [SKIP] OpenAI test skipped: {e}")
-        return True
+        print(f"  [FAIL] Groq connection test failed: {e}")
+        return False
 
 
 # --------------------------------------------------
@@ -173,25 +162,39 @@ def test_end_to_end():
 
 
 # --------------------------------------------------
-# TEST 5: Query Suggestions
+# TEST 5: SQL Explanation
 # --------------------------------------------------
-def test_query_suggestions():
+def test_sql_explanation():
     print("\n" + "=" * 60)
-    print("TEST 5: Query Suggestions")
+    print("TEST 5: SQL Explanation")
     print("=" * 60)
 
     try:
         from services.sql_generator import get_sql_generator
 
         generator = get_sql_generator()
-        suggestions = generator.get_query_suggestions()
+        test_sql = "SELECT * FROM customers WHERE city = 'New York';"
+        
+        # We need to mock the response or call the real one
+        from services.groq_llm_client import client as groq_client, MODEL_NAME
+        import json
 
-        if suggestions:
-            print("  [OK] Suggestions generated")
+        print(f"  Testing explanation for: {test_sql}")
+        
+        # In a real test we'd use the endpoint logic, but here we test the service integration
+        # For now, let's just verify we can reach the LLM with an explanation prompt
+        prompt = f"Explain this SQL in JSON: {test_sql}"
+        response = groq_client.chat.completions.create(
+            model=MODEL_NAME,
+            messages=[{"role": "user", "content": prompt}],
+            max_tokens=500
+        )
+
+        if response.choices:
+            print("  [OK] Explanation generated")
             return True
-
-        print("  [WARN] No suggestions returned")
-        return True
+        
+        return False
 
     except Exception as e:
         print(f"  [FAIL] Error: {e}")
@@ -239,11 +242,11 @@ def main():
     print("=" * 60)
 
     tests = {
-        "OpenAI (Optional)": test_openai_connection(),
+        "Groq Connection": test_groq_connection(),
         "RAG Engine": test_rag_engine(),
         "SQL Generation": test_sql_generation(),
         "End-to-End": test_end_to_end(),
-        "Query Suggestions": test_query_suggestions(),
+        "SQL Explanation": test_sql_explanation(),
         "SQL Validation": test_sql_validation(),
     }
 

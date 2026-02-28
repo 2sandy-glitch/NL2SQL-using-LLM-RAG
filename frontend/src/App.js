@@ -133,38 +133,17 @@ function App() {
         setExplanation(null);
 
         try {
-            const schemaContext = schemaLoaded ? `\n\nDatabase schema:\n${schemaText.slice(0, 1500)}` : "";
-            const response = await fetch("https://api.anthropic.com/v1/messages", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    model: "claude-sonnet-4-20250514",
-                    max_tokens: 1000,
-                    messages: [{
-                        role: "user",
-                        content: `You are a SQL expert. Explain this SQL query in plain English for a non-technical user. Break it down clause by clause.
-
-Return ONLY a JSON object with this exact structure (no markdown, no extra text):
-{
-  "summary": "One sentence summary of what this query does",
-  "clauses": [
-    { "clause": "the SQL clause", "explanation": "plain English explanation" }
-  ],
-  "tables_used": ["table1", "table2"],
-  "complexity": "Simple"
-}
-
-Complexity must be one of: Simple, Moderate, Complex.
-
-SQL:
-${targetSql}${schemaContext}`
-                    }]
-                })
+            const schemaContext = schemaLoaded ? schemaText.slice(0, 1500) : undefined;
+            const res = await axios.post(`${API_BASE}/explain-sql`, {
+                sql: targetSql,
+                schema_context: schemaContext,
             });
-            const data = await response.json();
-            const text = data.content?.map(c => c.text || "").join("") || "";
-            const clean = text.replace(/```json|```/g, "").trim();
-            setExplanation(JSON.parse(clean));
+
+            if (res.data.success) {
+                setExplanation(res.data.explanation);
+            } else {
+                setExplanation({ error: res.data.error || "Could not generate explanation." });
+            }
         } catch (err) {
             setExplanation({ error: "Could not generate explanation. Please try again." });
         }

@@ -61,7 +61,7 @@ export function minifySQL(sql) {
 
 // ── Token renderer for syntax highlighting ────────────────────────────────────
 export function renderTokens(line, isErrorLine = false, React) {
-    const parts = line.split(/(\'[^\']*\'|\b(?:SELECT|FROM|WHERE|JOIN|ON|GROUP\s+BY|ORDER\s+BY|LIMIT|DISTINCT|AND|OR|AS|INTERVAL|EXTRACT|DATE_TRUNC|COUNT|SUM|DATE|BY|DESC|ASC|HAVING|LEFT|RIGHT|INNER|OUTER|NOT|IN|IS|NULL|INSERT|UPDATE|DELETE|WITH|CASE|WHEN|THEN|END|ELSE)\b|\b\d+\b)/gi);
+    const parts = line.split(/('[^']*'|\b(?:SELECT|FROM|WHERE|JOIN|ON|GROUP\s+BY|ORDER\s+BY|LIMIT|DISTINCT|AND|OR|AS|INTERVAL|EXTRACT|DATE_TRUNC|COUNT|SUM|DATE|BY|DESC|ASC|HAVING|LEFT|RIGHT|INNER|OUTER|NOT|IN|IS|NULL|INSERT|UPDATE|DELETE|WITH|CASE|WHEN|THEN|END|ELSE)\b|\b\d+\b)/gi);
     return parts.map((part, i) => {
         if (/^'[^']*'$/.test(part)) return React.createElement('span', { key: i, style: { color: "#ff9e87" } }, part);
         if (/^\b(?:SELECT|FROM|WHERE|JOIN|ON|GROUP\s+BY|ORDER\s+BY|LIMIT|DISTINCT|AND|OR|AS|INTERVAL|EXTRACT|DATE_TRUNC|COUNT|SUM|DATE|BY|DESC|ASC|HAVING|LEFT|RIGHT|INNER|OUTER|NOT|IN|IS|NULL|INSERT|UPDATE|DELETE|WITH|CASE|WHEN|THEN|END|ELSE)\b$/i.test(part))
