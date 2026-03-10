@@ -81,3 +81,9 @@ coverage.xml
 
 # Ruff cache
 .ruff_cache/
+
+# ChromaDB data
+backend/data/chroma/
+
+# Root-level lock file (if unintended)
+/package-lock.json

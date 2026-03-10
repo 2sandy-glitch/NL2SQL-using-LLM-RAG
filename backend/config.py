@@ -66,6 +66,7 @@ class Config:
     USE_OPENAI_LLM = os.getenv("USE_OPENAI_LLM", "False").lower() == "true"
     USE_HF_LLM = os.getenv("USE_HF_LLM", "False").lower() == "true"
     USE_OLLAMA_LLM = os.getenv("USE_OLLAMA_LLM", "False").lower() == "true"
+    USE_MOCK_LLM = os.getenv("USE_MOCK_LLM", "False").lower() == "true"
 
 
 class DevelopmentConfig(Config):
